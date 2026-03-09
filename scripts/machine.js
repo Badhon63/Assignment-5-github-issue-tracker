@@ -89,7 +89,7 @@ function displayIssues(issues) {
     const date = new Date(issue.createdAt).toLocaleDateString();
 
     const card = `
-      <div class="card bg-base-200 shadow">
+  <div class="card bg-base-200 shadow cursor-pointer" onclick="openModal(${issue.id})">
         <div class="card-body border-t-5 ${borderColor} rounded-xl">
           <div class="flex justify-between">
             <span class="badge ${priorityColor}">${issue.priority.toUpperCase()}</span>
@@ -107,6 +107,57 @@ function displayIssues(issues) {
     container.innerHTML += card;
   }
 }
+
+function openModal(id) {
+  let issue;
+  for (let i = 0; i < allIssues.length; i++) {
+    if (allIssues[i].id === id) {
+      issue = allIssues[i];
+    }
+  }
+  const modal = document.getElementById("issue-modal");
+
+  document.getElementById("modal-title").textContent = issue.title;
+  document.getElementById("modal-author").textContent = issue.assignee || "Unassigned";
+  document.getElementById("modal-date").textContent = new Date(issue.createdAt).toLocaleDateString();
+  document.getElementById("modal-description").textContent = issue.description;
+  document.getElementById("modal-assignee").textContent = issue.assignee || "Unassigned";
+
+  const priorityBadge = document.getElementById("modal-priority");
+  priorityBadge.textContent = issue.priority.toUpperCase();
+  if (issue.priority === "high") {
+    priorityBadge.className = "badge badge-error";
+  } else if (issue.priority === "medium") {
+    priorityBadge.className = "badge badge-warning";
+  } else {
+    priorityBadge.className = "badge badge-outline bg-gray-200";
+  }
+
+  let labelsHTML = "";
+  for (let j = 0; j < issue.labels.length; j++) {
+    const label = issue.labels[j];
+    let labelColor = "badge-neutral bg-gray-100";
+    if (label === "bug") {
+      labelColor = "badge-error bg-red-100";
+    } else if (label === "help wanted") {
+      labelColor = "badge-warning bg-yellow-50";
+    } else if (label === "enhancement") {
+      labelColor = "badge-success bg-green-100";
+    } else if (label === "documentation") {
+      labelColor = "badge-info bg-blue-100";
+    } else if (label === "good first issue") {
+      labelColor = "badge-secondary bg-purple-100";
+    }
+    labelsHTML += `<span class="badge badge-outline ${labelColor}">${label.toUpperCase()}</span>`;
+  }
+  document.getElementById("modal-labels").innerHTML = labelsHTML;
+
+  modal.showModal();
+}
+
+document.getElementById("modal-close").addEventListener("click", () => {
+  document.getElementById("issue-modal").close();
+});
 
 async function loadIssues() {
   const response = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");

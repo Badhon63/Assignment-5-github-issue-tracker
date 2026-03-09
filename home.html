@@ -45,7 +45,6 @@
   </section>
 
   <div class="max-w-6xl mx-auto mt-6">
-
     <div class="bg-base-100 p-6 rounded-lg shadow">
       <div class="flex justify-between mb-6 border-b-2 border-gray-200 pb-4">
 
@@ -63,10 +62,36 @@
         </div>
 
       </div>
-      <div id="container"  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+      <div id="container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
     </div>
-
   </div>
+
+  <dialog id="issue-modal" class="modal">
+    <div class="modal-box">
+      <h2 id="modal-title" class="text-xl font-bold mb-2"></h2>
+      <div class="flex items-center gap-2 mb-4">
+        <span id="modal-status" class="badge badge-success">Opened</span>
+        <span class="text-sm opacity-60">by <span id="modal-author"></span> · <span id="modal-date"></span></span>
+      </div>
+      <div id="modal-labels" class="flex gap-2 flex-wrap mb-4"></div>
+      <p id="modal-description" class="text-sm opacity-70 mb-4"></p>
+
+      <div class="flex gap-4 bg-gray-100 p-3 rounded-lg">
+        <div class="flex-1">
+          <p class="text-sm font-semibold">Assignee:</p>
+          <p id="modal-assignee" class="text-sm opacity-70"></p>
+        </div>
+        <div class="flex-1">
+          <p class="text-sm font-semibold">Priority:</p>
+          <span id="modal-priority" class="badge"></span>
+        </div>
+      </div>
+
+      <div class="modal-action">
+        <button id="modal-close" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+  </dialog>
 
   <script src="scripts/machine.js"></script>
 </body>
