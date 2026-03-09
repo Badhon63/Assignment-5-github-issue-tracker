@@ -3,7 +3,31 @@ let allIssues = [];
 document.addEventListener("DOMContentLoaded", () => {
   const filterButtons = document.querySelectorAll("#filter .tabs button");
 
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      filterButtons.forEach(btn => {
+        btn.classList.remove("btn-primary");
+        btn.classList.add("btn-outline");
+      });
 
+      button.classList.remove("btn-outline");
+      button.classList.add("btn-primary");
+
+      const filterText = button.textContent.toLowerCase();
+
+      if (filterText === "all") {
+        displayIssues(allIssues);
+      } else {
+        const filtered = [];
+        for (let i = 0; i < allIssues.length; i++) {
+          if (allIssues[i].status === filterText) {
+            filtered.push(allIssues[i]);
+          }
+        }
+        displayIssues(filtered);
+      }
+    });
+  });
 
 const searchInput = document.querySelector("#navbar input");
 const searchButton = document.querySelector("#navbar button");
