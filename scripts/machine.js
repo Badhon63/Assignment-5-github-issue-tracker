@@ -163,6 +163,7 @@ async function loadIssues() {
   const response = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
   const result = await response.json();
   allIssues = result.data;
+  document.getElementById("loading").remove();
   displayIssues(allIssues);
 }
 
